@@ -9,32 +9,34 @@
  */
 void findFactors(const mpz_t num)
 {
-        mpz_t i;
-        mpz_t quotient;
-        mpz_init(i);
-        mpz_init(quotient);
+	mpz_t i;
+	mpz_t quotient;
 
-        mpz_set_ui(i, 2);
-        mpz_cdiv_q_ui(quotient, num, 2);
+	mpz_init(i);
+	mpz_init(quotient);
 
-        while (mpz_cmp(i, quotient) <= 0)
-        {
-                if (mpz_divisible_p(num, i))
-                {
-                        mpz_t factor;
-                        mpz_init(factor);
+	mpz_set_ui(i, 2);
+	mpz_cdiv_q_ui(quotient, num, 2);
 
-                        mpz_divexact(factor, num, i);
-                        gmp_printf("%Zd=%Zd*%Zd\n", num, i, factor);
+	while (mpz_cmp(i, quotient) <= 0)
+	{
+		if (mpz_divisible_p(num, i))
+		{
+			mpz_t factor;
 
-                        mpz_clear(factor);
-                        break;
-                }
-                mpz_add_ui(i, i, 1);
-        }
+			mpz_init(factor);
 
-        mpz_clear(i);
-        mpz_clear(quotient);
+			mpz_divexact(factor, num, i);
+			gmp_printf("%Zd=%Zd*%Zd\n", num, i, factor);
+
+			mpz_clear(factor);
+			break;
+		}
+		mpz_add_ui(i, i, 1);
+	}
+
+	mpz_clear(i);
+	mpz_clear(quotient);
 }
 
 /**
@@ -45,31 +47,31 @@ void findFactors(const mpz_t num)
  */
 int main(int argc, char *argv[])
 {
-        FILE *file;
-        mpz_t num;
-        mpz_init(num);
+	FILE *file;
+	mpz_t num;
 
-        if (argc != 2)
-        {
-                printf("Usage: ./program <filename>\n");
-                return 1;
-        }
+	mpz_init(num);
 
-        file = fopen(argv[1], "r");
-        if (file == NULL)
-        {
-                printf("Failed to open the file.\n");
-                return 1;
-        }
+	if (argc != 2)
+	{
+		printf("Usage: ./program <filename>\n");
+		return (1);
+	}
 
-        while (gmp_fscanf(file, "%Zd", num) != EOF)
-        {
-                findFactors(num);
-        }
+	file = fopen(argv[1], "r");
+	if (file == NULL)
+	{
+		printf("Failed to open the file.\n");
+		return (1);
+	}
 
-        mpz_clear(num);
-        fclose(file);
+	while (gmp_fscanf(file, "%Zd", num) != EOF)
+	{
+		findFactors(num);
+	}
 
-        return 0;
+	mpz_clear(num);
+	fclose(file);
+
+	return (0);
 }
-
