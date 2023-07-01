@@ -2,6 +2,7 @@
 
 import sys
 
+
 def findFactores(num):
     """Finds the factors of a number
     
@@ -11,11 +12,11 @@ def findFactores(num):
     """
     for i in range(2, int(num ** 0.5) + 1):
         if num % i == 0:
-            return [i, num // 2]
+            return [i, num // i]
 
 
 if __name__ == "__main__":
-    """Reads the input file and pass it to findFactores function.
+    """Reads the input file and stores it in a list.
     """
 
     if len(sys.argv) != 2:
@@ -29,14 +30,18 @@ if __name__ == "__main__":
             lines = file.readlines()
             list_of_num = []
             for line in lines:
-                num = int(line)
-                factors = findFactores(num)
-                if factors:
-                    print("{}={}*{}".format(num, factors[0], factors[1]))
-                else:
-                    print("{} is a Prime number".format(num))
+                list_of_num.append(int(line))
     except FileNotFoundError:
         print("File Not Found")
         exit()
     finally:
         file.close()
+
+    """ iterat on a list of numbers to find their factors
+    """
+    for num in list_of_num:
+        factors = findFactores(num)
+        if factors:
+            print("{}={}*{}".format(num, factors[0], factors[1]))
+        else:
+            print("{} is a Prime number".format(num))
